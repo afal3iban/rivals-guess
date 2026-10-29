@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rivals — Guess the Hero</title>
-<meta name="description" content="Guess the Marvel Rivals hero from gender, role, team, origin and release year. Unlimited rounds.">
+<meta name="description" content="Guess the Marvel Rivals hero from gender, role, team, origin and release year, or from emoji clues. Unlimited rounds.">
 <meta property="og:title" content="Rivals — Guess the Hero">
 <meta property="og:description" content="Guess the Marvel Rivals hero. Unlimited rounds.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +28,21 @@
       radial-gradient(1000px 600px at 95% -6%, #0d3b57 0%, transparent 55%),
       var(--bg);
   }
-  .app{max-width:1840px;margin:0 auto;padding:12px 20px 8px;display:flex;flex-direction:column;gap:12px}
+  .app{position:relative;z-index:1;max-width:1840px;margin:0 auto;padding:12px 20px 8px;display:flex;flex-direction:column;gap:12px}
+
+  /* ---------- endless hero wall (background) ---------- */
+  .wall{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+  .wallTilt{position:absolute;left:-25%;top:-35%;width:150%;height:170%;transform:rotate(-12deg);
+    display:flex;flex-direction:column;justify-content:center;gap:14px;opacity:.34;filter:saturate(.8) blur(1px)}
+  .wallRow{display:flex;width:max-content;gap:14px;animation:wallScroll var(--dur,120s) linear infinite}
+  .wallRow.rev{animation-direction:reverse}
+  .wallRow img,.wallRow .ph{width:132px;height:150px;flex:none;border-radius:14px;object-fit:cover;object-position:50% 10%;
+    background:linear-gradient(160deg,#2b2466,#141c3d)}
+  @keyframes wallScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .wall::after{content:"";position:absolute;inset:0;
+    background:radial-gradient(ellipse at 50% 45%,rgba(9,12,24,.55) 0%,rgba(9,12,24,.9) 75%),
+      linear-gradient(180deg,rgba(42,27,94,.35),rgba(9,12,24,.6))}
+  @media (prefers-reduced-motion:reduce){ .wallRow{animation:none} }
 
   /* ---------- top bar ---------- */
   .top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
@@ -49,8 +63,8 @@
 
   /* ---------- panels ---------- */
   .layout{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
-  .panel{background:rgba(18,26,53,.55);border:1px solid var(--line);border-radius:16px;padding:14px;
-    display:flex;flex-direction:column;min-width:0}
+  .panel{background:rgba(18,26,53,.72);border:1px solid var(--line);border-radius:16px;padding:14px;
+    display:flex;flex-direction:column;min-width:0;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
   .play{gap:10px}
 
   .inputRow{display:flex;gap:10px;position:relative}
@@ -67,6 +81,42 @@
   .ac img,.ac .ph{width:34px;height:34px;border-radius:7px;object-fit:cover;object-position:50% 12%;flex:none;font-size:11px}
   .prompt{font-size:13px;color:var(--muted);text-align:center}
   .prompt b{color:var(--text)}
+
+  /* ---------- mode switch ---------- */
+  .modes{display:inline-flex;align-self:center;padding:3px;gap:3px;border-radius:12px;
+    background:rgba(9,12,24,.75);border:1px solid var(--line)}
+  .modes button{border:0;border-radius:9px;background:transparent;color:var(--muted);
+    padding:7px 14px;font-size:13px;letter-spacing:1.4px;text-transform:uppercase}
+  .modes button:hover{background:var(--panel2);color:var(--text)}
+  .modes button.on{background:linear-gradient(180deg,var(--accent),#5a3ee0);color:#fff}
+
+  /* ---------- emoji mode ---------- */
+  .emojiWrap{display:flex;flex-direction:column;gap:12px;min-height:0}
+  .emojiWrap[hidden]{display:none}
+  .emojiCard{position:relative;padding:18px 16px 20px;text-align:center;
+    background:linear-gradient(180deg,rgba(29,40,80,.92),rgba(12,17,38,.95));
+    border:2px solid rgba(238,241,255,.85);border-radius:6px;
+    clip-path:polygon(0 6%,3% 0,100% 0,100% 94%,97% 100%,0 100%);
+    box-shadow:0 0 0 1px rgba(124,92,255,.4) inset}
+  .emojiQ{font-size:17px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:14px}
+  .emojis{display:flex;justify-content:center;gap:clamp(8px,2vw,22px);flex-wrap:wrap}
+  .eslot{width:clamp(50px,6vw,72px);height:clamp(50px,6vw,72px);display:flex;align-items:center;justify-content:center;
+    border-radius:14px;font-size:clamp(34px,4.2vw,50px);line-height:1}
+  .eslot img{width:82%;height:82%;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}
+  .eslot.hidden{border:2px dashed var(--line);color:var(--muted);font-size:24px;font-weight:700;background:rgba(9,12,24,.45)}
+  .eslot.new{animation:pop .5s cubic-bezier(.2,1.6,.4,1) both}
+  @keyframes pop{0%{transform:scale(.2) rotate(-25deg);opacity:0}100%{transform:none;opacity:1}}
+  .ebars{display:flex;flex-direction:column;gap:9px;overflow:auto;min-height:0;scrollbar-width:thin;scrollbar-color:var(--line) transparent;padding:2px 4px}
+  .ebar{position:relative;display:flex;align-items:center;justify-content:center;gap:14px;flex:none;
+    height:var(--ebh,58px);padding:0 40px;font-size:18px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+    clip-path:polygon(0 0,95% 0,100% 100%,0 100%);animation:slideIn .35s ease both}
+  .ebar.bad{background:linear-gradient(100deg,#c42e48 0%,#e0364f 60%,#b82640 100%)}
+  .ebar.good{background:linear-gradient(100deg,#1fa85a 0%,#2fd36f 60%,#1b9a52 100%)}
+  .ebar img,.ebar .ph{width:calc(var(--ebh,58px) - 12px);height:calc(var(--ebh,58px) - 12px);border-radius:8px;
+    object-fit:cover;object-position:50% 12%;flex:none;font-size:13px}
+  .ebar span{text-shadow:0 2px 6px rgba(0,0,0,.35)}
+  @keyframes slideIn{from{transform:translateX(-18px);opacity:0}to{transform:none;opacity:1}}
+  .ehint{text-align:center;color:var(--muted);font-size:14px;padding:6px 0}
 
   /* ---------- result ---------- */
   .result{display:flex;gap:14px;align-items:center;background:linear-gradient(90deg,rgba(0,212,255,.10),rgba(124,92,255,.10));
@@ -178,6 +228,7 @@
     .layout{flex:1;min-height:0;grid-template-columns:minmax(520px,42fr) minmax(0,58fr);grid-template-rows:minmax(0,1fr)}
     .panel{min-height:0}
     .boardWrap{flex:1;min-height:0}
+    .emojiWrap{flex:1}
     #rosterBody{flex:1;min-height:0}
   }
   /* small screens: normal scrolling page */
@@ -195,9 +246,15 @@
 </style>
 </head>
 <body>
+<div class="wall" id="wall" aria-hidden="true"><div class="wallTilt" id="wallTilt"></div></div>
 <div class="app">
   <header class="top">
-    <div class="brand"><h1>RIVALS</h1><span class="tag">Guess the hero</span></div>
+    <div class="brand"><h1>RIVALS</h1>
+      <div class="modes" role="radiogroup" aria-label="Game mode">
+        <button type="button" role="radio" data-mode="classic">Classic</button>
+        <button type="button" role="radio" data-mode="emoji">Emoji</button>
+      </div>
+      <span class="tag" id="tag">Guess the hero</span></div>
     <div class="bar">
       <button id="btnHow">How to play</button>
       <button id="btnStats">Stats</button>
@@ -214,6 +271,13 @@
       </div>
       <div class="prompt" id="prompt"></div>
       <div id="result"></div>
+      <div class="emojiWrap" id="emojiWrap" hidden>
+        <div class="emojiCard">
+          <div class="emojiQ">Which hero do these emojis describe?</div>
+          <div class="emojis" id="emojis"></div>
+        </div>
+        <div class="ebars" id="ebars"></div>
+      </div>
       <div class="boardWrap" id="boardWrap">
         <table id="board" hidden>
           <colgroup><col style="width:17%"><col><col><col style="width:19%"><col><col></colgroup>
@@ -247,6 +311,7 @@
 
 <dialog id="dlgHow">
   <h3>How to play</h3>
+  <p style="font-size:14px;margin-top:0"><b>Classic mode</b></p>
   <p style="font-size:14px;color:var(--muted);margin-top:0">A random hero is picked. You get <b>7 guesses</b> — every guess shows how close each attribute is.</p>
   <ul>
     <li><span class="key" style="background:var(--good)"></span><b>Green</b> — exact match.</li>
@@ -254,7 +319,9 @@
     <li><span class="key" style="background:var(--bad)"></span><b>Red</b> — no match.</li>
     <li><b>↑ / ↓</b> on the year — the answer came out later / earlier.</li>
   </ul>
-  <p style="font-size:14px">Type a name or click a hero on the right. Unlimited rounds — hit <b>New hero</b> any time (skipping a round you've started counts as a loss).</p>
+  <p style="font-size:14px;margin-bottom:4px"><b>Emoji mode</b></p>
+  <p style="font-size:14px;color:var(--muted);margin-top:0">You start with <b>1 emoji</b>. Every wrong guess reveals another, up to 5. The first two are tough; the last one nearly gives it away. You get <b>5 guesses</b>.</p>
+  <p style="font-size:14px">Switch modes with the <b>Classic / Emoji</b> toggle at the top; each mode keeps its own round. Type a name or click a hero on the right. Unlimited rounds — hit <b>New hero</b> any time (skipping a round you've started counts as a loss).</p>
   <button class="primary" onclick="dlgHow.close()">Got it</button>
 </dialog>
 
@@ -265,6 +332,7 @@
 </dialog>
 
 <script src="heroes.js"></script>
+<script src="emojis.js"></script>
 <script>
 /* ---------- helpers ---------- */
 const $ = id => document.getElementById(id);
@@ -379,30 +447,70 @@ function loadStore(){ try{ return JSON.parse(localStorage.getItem(LS)) || {}; }c
 function saveStore(){ try{ localStorage.setItem(LS, JSON.stringify(store)); }catch(e){} }
 
 let store = loadStore();
-const MAX_GUESSES = 7;
+/* two modes, each with its own round and its own "recently used" list; stats are shared */
+const MODES = {
+  classic: { max: 7, roundKey: 'round',  recentKey: 'recent',  tag: 'Guess the hero' },
+  emoji:   { max: 5, roundKey: 'eround', recentKey: 'erecent', tag: 'Guess from emojis' },
+};
+let mode = store.mode === 'emoji' ? 'emoji' : 'classic';
+const maxGuesses = () => MODES[mode].max;
+const EMOJI_HEROES = HEROES.filter(h => EMOJIS[h.name] && EMOJIS[h.name].length === 5);
+const heroPool = () => mode === 'emoji' ? EMOJI_HEROES : HEROES;
 store.stats  = store.stats  || {played:0, wins:0, total:0, best:null, dist:{}, streak:0, maxStreak:0};
 if(store.stats.wins===undefined){ store.stats.wins=store.stats.played; }          /* older saves: every round was a win */
 if(store.stats.streak===undefined){ store.stats.streak=0; store.stats.maxStreak=0; }
 store.recent = store.recent || [];
+store.erecent = store.erecent || [];
 
 let answer=null, guesses=[], done=false, won=false;
 
 /* random hero, avoiding the last several answers so repeats feel rare */
 function pickHero(){
-  const avoid = new Set(store.recent);
-  let pool = HEROES.filter(h=>!avoid.has(h.name));
-  if(!pool.length) pool = HEROES.slice();
+  const all = heroPool();
+  const avoid = new Set(store[MODES[mode].recentKey]);
+  let pool = all.filter(h=>!avoid.has(h.name));
+  if(!pool.length) pool = all.slice();
   return pool[Math.floor(Math.random()*pool.length)];
 }
 function newRound(){
   if(answer && !done && guesses.length){ recordLoss(); toast('Skipped \u2014 it was '+answer.name); }
   answer = pickHero();
-  store.recent = [answer.name].concat(store.recent.filter(n=>n!==answer.name)).slice(0, Math.min(20, HEROES.length-1));
-  guesses=[]; done=false; won=false;
+  const rk = MODES[mode].recentKey;
+  store[rk] = [answer.name].concat(store[rk].filter(n=>n!==answer.name)).slice(0, Math.min(20, heroPool().length-1));
+  guesses=[]; done=false; won=false; shownEmojis=0;
   persist(); render();
   $('guess').value=''; $('guess').focus();
 }
-function persist(){ store.round={a:answer.name, g:guesses.slice(), done, won}; saveStore(); }
+function persist(){ store[MODES[mode].roundKey]={a:answer.name, g:guesses.slice(), done, won}; saveStore(); }
+
+/* resume this mode's unfinished round after a refresh or a mode switch, else start a fresh hero */
+function loadRound(){
+  const r = store[MODES[mode].roundKey];
+  const h = r && heroPool().find(x=>x.name===r.a);
+  answer=null; guesses=[]; done=false; won=false; shownEmojis=0;
+  if(h){
+    answer=h; guesses=(r.g||[]).filter(n=>HEROES.some(x=>x.name===n)).slice(0,maxGuesses()); done=!!r.done;
+    won = r.won!==undefined ? !!r.won : (done && guesses.includes(h.name));
+    render();
+  } else newRound();
+}
+
+/* Classic | Emoji switch: pauses the current round (no penalty) and resumes the other mode's */
+function syncModeUI(){
+  document.querySelectorAll('.modes button').forEach(b=>{
+    const on = b.dataset.mode===mode;
+    b.classList.toggle('on', on); b.setAttribute('aria-checked', String(on));
+  });
+  $('tag').textContent = MODES[mode].tag;
+}
+function setMode(m){
+  if(m===mode || !MODES[m]) return;
+  mode = m; store.mode = m; saveStore();
+  hideAc(); $('guess').value='';
+  syncModeUI(); loadRound();
+  $('guess').focus();
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
 function recordWin(){
   const s=store.stats, n=guesses.length;
   s.played++; s.wins++; s.total+=n;
@@ -418,7 +526,8 @@ function recordLoss(){
 }
 function pips(){
   let h='<span class="pips">';
-  for(let i=0;i<MAX_GUESSES;i++) h+='<i class="'+(i<guesses.length?(done&&!won&&i===MAX_GUESSES-1?'last':'on'):'')+'"></i>';
+  const max=maxGuesses();
+  for(let i=0;i<max;i++) h+='<i class="'+(i<guesses.length?(done&&!won&&i===max-1?'last':'on'):'')+'"></i>';
   return h+'</span>';
 }
 
@@ -518,9 +627,31 @@ FIT.addEventListener && FIT.addEventListener('change', fitAll);
 
 /* ---------- rendering ---------- */
 function render(){
+  const emo = mode==='emoji';
+  $('emojiWrap').hidden = !emo;
+  $('boardWrap').hidden = emo;
+  if(emo) renderEmoji();
   const rows=$('rows'); rows.innerHTML='';
-  $('board').hidden = guesses.length===0;
-  $('empty').hidden = guesses.length>0;
+  $('board').hidden = emo || guesses.length===0;
+  $('empty').hidden = emo || guesses.length>0;
+  if(!emo) renderClassicRows(rows);
+
+  const max = maxGuesses(), left = max-guesses.length;
+  $('prompt').innerHTML = done
+    ? (won ? 'Solved! Hit <b>Next hero</b> for another round.' : 'Out of guesses. Hit <b>Next hero</b> to try another.')
+    : 'Guess <b>'+Math.min(guesses.length+1,max)+'</b> of '+max+' &middot; <b>'+left+'</b> left'+pips();
+
+  $('guess').disabled = done;
+  $('btnGo').disabled = done;
+  $('result').innerHTML='';
+  if(done) showResult();
+
+  syncRoster();
+  fitAll();
+  $('boardWrap').scrollTop = 0;
+}
+
+function renderClassicRows(rows){
   guesses.slice().reverse().forEach(name=>{
     const h = HEROES.find(x=>x.name===name); if(!h) return;
     const tr=document.createElement('tr');
@@ -539,30 +670,54 @@ function render(){
     add(h.year===answer.year?'g':'b', h.year, h.year===answer.year?'':(answer.year>h.year?'↑':'↓'));
     rows.appendChild(tr);
   });
-
-  const left = MAX_GUESSES-guesses.length;
-  $('prompt').innerHTML = done
-    ? (won ? 'Solved! Hit <b>Next hero</b> for another round.' : 'Out of guesses. Hit <b>Next hero</b> to try another.')
-    : 'Guess <b>'+Math.min(guesses.length+1,MAX_GUESSES)+'</b> of '+MAX_GUESSES+' &middot; <b>'+left+'</b> left'+pips();
-
-  $('guess').disabled = done;
-  $('btnGo').disabled = done;
-  $('result').innerHTML='';
-  if(done) showResult();
-
-  syncRoster();
-  fitAll();
-  $('boardWrap').scrollTop = 0;
 }
 
-function emojiGrid(){
-  const map={g:'🟩',o:'🟧',b:'🟥'};
-  return guesses.map(name=>{
-    const h=HEROES.find(x=>x.name===name);
-    const y = h.year===answer.year ? '🟩' : (answer.year>h.year?'⬆️':'⬇️');
-    return map[h.gender===answer.gender?'g':'b'] + map[compareSet(h.roles,answer.roles)] +
-           map[compareSet(h.teams,answer.teams)] + map[h.origin===answer.origin?'g':'b'] + y;
-  }).join('\n');
+/* ---------- emoji mode ---------- */
+/* Emojis are drawn with Twemoji images so they look the same everywhere
+   (Windows shows flag emojis as plain letters); plain text is the fallback. */
+function twemojiCode(e){
+  const s = e.indexOf('\u200D')<0 ? e.replace(/\uFE0F/g,'') : e;
+  return [...s].map(c=>c.codePointAt(0).toString(16)).join('-');
+}
+function emojiImg(e){
+  const img=document.createElement('img');
+  img.alt=e; img.draggable=false;
+  img.onerror=()=>{ const sp=document.createElement('span'); sp.textContent=e; img.replaceWith(sp); };
+  img.src='https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/'+twemojiCode(e)+'.svg';
+  return img;
+}
+let shownEmojis=0;   /* how many were visible last render, so only the new one pops */
+function renderEmoji(){
+  const clues = EMOJIS[answer.name];
+  const shown = done ? clues.length : Math.min(clues.length, guesses.length+1);
+  const box=$('emojis'); box.innerHTML='';
+  clues.forEach((e,i)=>{
+    const slot=document.createElement('div');
+    if(i<shown){
+      slot.className='eslot'+(i>=shownEmojis?' new':'');
+      slot.appendChild(emojiImg(e));
+    } else {
+      slot.className='eslot hidden'; slot.textContent='?';
+      slot.setAttribute('aria-label','Hidden clue');
+    }
+    box.appendChild(slot);
+  });
+  shownEmojis = shown;
+
+  const bars=$('ebars'); bars.innerHTML='';
+  if(!guesses.length){
+    const hint=document.createElement('div'); hint.className='ehint';
+    hint.textContent='Make a guess. Each miss reveals another emoji.';
+    bars.appendChild(hint);
+  }
+  guesses.slice().reverse().forEach(name=>{
+    const h=HEROES.find(x=>x.name===name); if(!h) return;
+    const bar=document.createElement('div');
+    bar.className='ebar '+(h.name===answer.name?'good':'bad');
+    bar.appendChild(portrait(h));
+    const sp=document.createElement('span'); sp.textContent=h.name; bar.appendChild(sp);
+    bars.appendChild(bar);
+  });
 }
 
 function showResult(){
@@ -574,25 +729,14 @@ function showResult(){
   const info=document.createElement('div'); info.className='info';
   const who=document.createElement('div'); who.className='who'; who.textContent=answer.name.toUpperCase();
   const sub=document.createElement('div'); sub.className='sub';
-  sub.innerHTML=(won ? 'Solved in <b>'+guesses.length+'/'+MAX_GUESSES+'</b>' : 'Out of guesses')+
+  sub.innerHTML=(won ? 'Solved in <b>'+guesses.length+'/'+maxGuesses()+'</b>' : 'Out of guesses')+
     ' &middot; win rate <b>'+pct+'%</b> &middot; streak <b>'+s.streak+'</b>';
   info.appendChild(who); info.appendChild(sub);
   const btns=document.createElement('div'); btns.className='btns';
   const nxt=document.createElement('button'); nxt.className='primary'; nxt.textContent='Next hero ▶'; nxt.onclick=newRound;
-  const share=document.createElement('button'); share.textContent='Share'; share.onclick=doShare;
-  btns.appendChild(nxt); btns.appendChild(share);
+  btns.appendChild(nxt);
   box.appendChild(pic); box.appendChild(info); box.appendChild(btns);
   $('result').appendChild(box);
-}
-
-function doShare(){
-  let txt = 'Rivals \u2014 '+answer.name+' '+(won?guesses.length:'X')+'/'+MAX_GUESSES+'\n'+emojiGrid();
-  if(location.protocol.startsWith('http')) txt += '\n'+location.href.split('?')[0];
-  const fallback=()=>{ const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta);
-    ta.select(); try{document.execCommand('copy');}catch(e){} ta.remove(); toast('Copied — paste it in Discord'); };
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(txt).then(()=>toast('Copied — paste it in Discord'), fallback);
-  } else fallback();
 }
 
 function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show');
@@ -606,7 +750,7 @@ function submitGuess(name){
   if(guesses.includes(h.name)){ toast('Already guessed'); return; }
   guesses.push(h.name);
   if(h.name===answer.name){ done=true; won=true; recordWin(); }
-  else if(guesses.length>=MAX_GUESSES){ done=true; won=false; recordLoss(); }
+  else if(guesses.length>=maxGuesses()){ done=true; won=false; recordLoss(); }
   persist();
   $('guess').value=''; hideAc();
   render();
@@ -654,7 +798,7 @@ $('btnStats').onclick=()=>{
   const pct = s.played ? Math.round(100*s.wins/s.played) : 0;
   const losses = s.played - s.wins;
   const rowsData=[];
-  for(let k=1;k<=MAX_GUESSES;k++) rowsData.push([String(k), s.dist[k]||0, 'var(--accent)']);
+  for(let k=1;k<=MODES.classic.max;k++) rowsData.push([String(k), s.dist[k]||0, 'var(--accent)']);
   rowsData.push(['X', losses, 'var(--bad)']);
   const max=Math.max(1,...rowsData.map(r=>r[1]));
   const bars = rowsData.map(([k,v,c])=>
@@ -670,13 +814,26 @@ $('btnStats').onclick=()=>{
   dlgStats.showModal();
 };
 
+/* ---------- background: an endless, tilted wall of hero portraits ---------- */
+/* Each row holds the same strip twice and slides by exactly half its width, so the loop never shows a seam. */
+function buildWall(){
+  const tilt=$('wallTilt'); if(!tilt) return;
+  const ROWS=7, PER_ROW=24;
+  for(let r=0;r<ROWS;r++){
+    const row=document.createElement('div');
+    row.className='wallRow'+(r%2?' rev':'');
+    row.style.setProperty('--dur', (85 + (r*17)%60)+'s');
+    const strip=HEROES.slice().sort(()=>Math.random()-.5).slice(0, PER_ROW);
+    for(let pass=0;pass<2;pass++) strip.forEach(h=>row.appendChild(portrait(h,'',180,30000)));
+    tilt.appendChild(row);
+  }
+}
+
 /* ---------- start: resume an unfinished round after a refresh, else a fresh hero ---------- */
 (function start(){
-  const r = store.round;
-  const h = r && HEROES.find(x=>x.name===r.a);
-  if(h){ answer=h; guesses=(r.g||[]).filter(n=>HEROES.some(x=>x.name===n)).slice(0,MAX_GUESSES); done=!!r.done;
-         won = r.won!==undefined ? !!r.won : (done && guesses.includes(h.name)); render(); }
-  else newRound();
+  syncModeUI();
+  buildWall();
+  loadRound();
   setRosterHidden(true);
   $('guess').focus();
   if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
