@@ -98,13 +98,22 @@
     border:2px solid rgba(238,241,255,.85);border-radius:6px;
     clip-path:polygon(0 6%,3% 0,100% 0,100% 94%,97% 100%,0 100%);
     box-shadow:0 0 0 1px rgba(124,92,255,.4) inset}
-  .emojiQ{font-size:17px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:14px}
+  .emojiQ{font-size:17px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:34px}
   .emojis{display:flex;justify-content:center;gap:clamp(8px,2vw,22px);flex-wrap:wrap}
   .eslot{width:clamp(50px,6vw,72px);height:clamp(50px,6vw,72px);display:flex;align-items:center;justify-content:center;
     border-radius:14px;font-size:clamp(34px,4.2vw,50px);line-height:1}
   .eslot img{width:82%;height:82%;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}
   .etxt{font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif;
     font-size:clamp(40px,4.8vw,56px);line-height:1;filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}
+  .eslot{position:relative}
+  .eslot[data-name]{cursor:help}
+  .eslot[data-name]::after{content:attr(data-name);position:absolute;left:50%;bottom:calc(100% + 8px);
+    transform:translate(-50%,4px);white-space:nowrap;padding:5px 10px;border-radius:8px;
+    background:#0a0e1f;border:1px solid var(--accent);color:var(--text);
+    font-family:'Chakra Petch',system-ui,sans-serif;font-size:13px;font-weight:600;letter-spacing:.3px;
+    opacity:0;pointer-events:none;transition:opacity .12s,transform .12s;z-index:5;box-shadow:0 8px 20px rgba(0,0,0,.5)}
+  .eslot[data-name]:hover::after,.eslot[data-name]:focus::after,.eslot[data-name]:focus-visible::after{opacity:1;transform:translate(-50%,0)}
+  .eslot:focus{outline:none} .eslot:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
   .eslot.blank{border:2px solid rgba(238,241,255,.18);background:rgba(255,255,255,.04)}
   .eslot.hidden{border:2px dashed var(--line);color:var(--muted);font-size:24px;font-weight:700;background:rgba(9,12,24,.45)}
   .eslot.new{animation:pop .5s cubic-bezier(.2,1.6,.4,1) both}
@@ -701,7 +710,11 @@ function renderEmoji(){
     if(i<shown){
       slot.className='eslot'+(i>=shownEmojis?' new':'');
       if(e.trim()) slot.appendChild(emojiImg(e));
-      else { slot.classList.add('blank'); slot.setAttribute('aria-label','Blank clue'); }
+      else slot.classList.add('blank');
+      const label = (typeof EMOJI_NAMES!=='undefined' && EMOJI_NAMES[e]) || (e.trim() ? 'Emoji' : 'Nothing (invisible)');
+      slot.dataset.name = label;
+      slot.setAttribute('aria-label', label);
+      slot.tabIndex = 0;
     } else {
       slot.className='eslot hidden'; slot.textContent='?';
       slot.setAttribute('aria-label','Hidden clue');
