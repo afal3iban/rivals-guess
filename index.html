@@ -12,9 +12,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0b0b0c; --panel:#161618; --panel2:#242428;
-    --line:#3a3a40; --text:#f4f4f5; --muted:#a1a1aa;
-    --accent:#ffffff; --accent2:#ffffff; --on-accent:#0b0b0c;
+    --bg:#090c18; --panel:#121a35; --panel2:#1d2850;
+    --line:#2b3768; --text:#eef1ff; --muted:#93a0cc;
+    --accent:#7c5cff; --accent2:#00d4ff;
     --good:#25a55f; --warn:#d68a20; --bad:#a8324a;
     --van:#4aa3ff; --due:#ff5a6e; --str:#3fd18f;
     --ch:96px; --cf:14px; --cols:6; --nfs:11px;
@@ -24,8 +24,8 @@
   body{
     margin:0; font-family:'Chakra Petch',system-ui,-apple-system,sans-serif; color:var(--text);
     background:
-      radial-gradient(1100px 600px at 10% -10%, #26262b 0%, transparent 60%),
-      radial-gradient(1000px 600px at 95% -6%, #1c1c20 0%, transparent 55%),
+      radial-gradient(1100px 600px at 10% -10%, #2a1b5e 0%, transparent 60%),
+      radial-gradient(1000px 600px at 95% -6%, #0d3b57 0%, transparent 55%),
       var(--bg);
   }
   .app{position:relative;z-index:1;max-width:1840px;margin:0 auto;padding:12px 20px 8px;display:flex;flex-direction:column;gap:12px}
@@ -37,40 +37,40 @@
   .wallRow{display:flex;width:max-content;gap:14px;animation:wallScroll var(--dur,120s) linear infinite}
   .wallRow.rev{animation-direction:reverse}
   .wallRow img,.wallRow .ph{width:132px;height:150px;flex:none;border-radius:14px;object-fit:cover;object-position:50% 10%;
-    background:linear-gradient(160deg,#2a2a2f,#151517)}
+    background:linear-gradient(160deg,#2b2466,#141c3d)}
   @keyframes wallScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   .wall::after{content:"";position:absolute;inset:0;
-    background:radial-gradient(ellipse at 50% 45%,rgba(11,11,12,.35) 0%,rgba(11,11,12,.75) 80%),
-      linear-gradient(180deg,rgba(30,30,34,.3),rgba(11,11,12,.45))}
+    background:radial-gradient(ellipse at 50% 45%,rgba(9,12,24,.35) 0%,rgba(9,12,24,.75) 80%),
+      linear-gradient(180deg,rgba(42,27,94,.3),rgba(9,12,24,.45))}
   @media (prefers-reduced-motion:reduce){ .wallRow{animation:none} }
 
   /* ---------- top bar ---------- */
   .top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .brand{display:flex;align-items:baseline;gap:14px}
   h1{margin:0;font-size:40px;line-height:1;font-weight:700;letter-spacing:6px;
-    background:linear-gradient(180deg,#fff 40%,#a1a1aa 100%);
+    background:linear-gradient(180deg,#fff 40%,#9db4ff 100%);
     -webkit-background-clip:text;background-clip:text;color:transparent;
-    text-shadow:0 0 28px rgba(255,255,255,.18)}
+    text-shadow:0 0 28px rgba(124,92,255,.35)}
   .tag{color:var(--muted);letter-spacing:3px;font-size:12px;text-transform:uppercase}
   .bar{display:flex;gap:8px;flex-wrap:wrap}
   button{font-family:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--line);
     background:var(--panel);color:var(--text);padding:9px 15px;font-size:14px;font-weight:600;transition:.15s}
   button:hover{background:var(--panel2);border-color:var(--accent)}
-  button.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+  button.primary{background:linear-gradient(180deg,var(--accent),#5a3ee0);border-color:#6b4ff0}
   button.primary:hover{filter:brightness(1.12)}
-  button.playmore{border-color:var(--accent);color:#fff;background:rgba(255,255,255,.08)}
-  button.playmore:hover{background:rgba(255,255,255,.18);border-color:#fff}
+  button.playmore{border-color:var(--accent);color:#d8d0ff;background:rgba(124,92,255,.16)}
+  button.playmore:hover{background:rgba(124,92,255,.3);border-color:#a48cff}
 
   /* ---------- panels ---------- */
   .layout{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
-  .panel{background:rgba(18,18,20,.6);border:1px solid var(--line);border-radius:16px;padding:14px;
+  .panel{background:rgba(14,20,44,.6);border:1px solid var(--line);border-radius:16px;padding:14px;
     display:flex;flex-direction:column;min-width:0;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
   .play{gap:10px}
 
   .inputRow{display:flex;gap:10px;position:relative}
   #guess{flex:1;min-width:0;font-family:inherit;font-size:16px;padding:12px 14px;border-radius:12px;
-    border:1px solid var(--line);background:rgba(11,11,12,.8);color:var(--text);outline:none}
-  #guess:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,255,255,.15)}
+    border:1px solid var(--line);background:rgba(9,12,24,.8);color:var(--text);outline:none}
+  #guess:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,92,255,.2)}
   #guess:disabled{opacity:.5}
   #btnGo{padding:0 22px;font-size:15px}
   .ac{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:30;
@@ -84,20 +84,20 @@
 
   /* ---------- mode switch ---------- */
   .modes{display:inline-flex;align-self:center;padding:3px;gap:3px;border-radius:12px;
-    background:rgba(11,11,12,.75);border:1px solid var(--line)}
+    background:rgba(9,12,24,.75);border:1px solid var(--line)}
   .modes button{border:0;border-radius:9px;background:transparent;color:var(--muted);
     padding:7px 14px;font-size:13px;letter-spacing:1.4px;text-transform:uppercase}
   .modes button:hover{background:var(--panel2);color:var(--text)}
-  .modes button.on{background:var(--accent);color:var(--on-accent)}
+  .modes button.on{background:linear-gradient(180deg,var(--accent),#5a3ee0);color:#fff}
 
   /* ---------- emoji mode ---------- */
   .emojiWrap{display:flex;flex-direction:column;gap:12px;min-height:0}
   .emojiWrap[hidden]{display:none}
   .emojiCard{position:relative;padding:18px 16px 20px;text-align:center;
-    background:linear-gradient(180deg,rgba(34,34,38,.92),rgba(14,14,16,.95));
+    background:linear-gradient(180deg,rgba(29,40,80,.92),rgba(12,17,38,.95));
     border:2px solid rgba(238,241,255,.85);border-radius:6px;
     clip-path:polygon(0 6%,3% 0,100% 0,100% 94%,97% 100%,0 100%);
-    box-shadow:0 0 0 1px rgba(255,255,255,.12) inset}
+    box-shadow:0 0 0 1px rgba(124,92,255,.4) inset}
   .emojiQ{font-size:17px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:34px}
   .emojis{display:flex;justify-content:center;gap:clamp(8px,2vw,22px);flex-wrap:wrap}
   .eslot{width:clamp(50px,6vw,72px);height:clamp(50px,6vw,72px);display:flex;align-items:center;justify-content:center;
@@ -109,13 +109,13 @@
   .eslot[data-name]{cursor:help}
   .eslot[data-name]::after{content:attr(data-name);position:absolute;left:50%;bottom:calc(100% + 8px);
     transform:translate(-50%,4px);white-space:nowrap;padding:5px 10px;border-radius:8px;
-    background:#0b0b0c;border:1px solid var(--accent);color:var(--text);
+    background:#0a0e1f;border:1px solid var(--accent);color:var(--text);
     font-family:'Chakra Petch',system-ui,sans-serif;font-size:13px;font-weight:600;letter-spacing:.3px;
     opacity:0;pointer-events:none;transition:opacity .12s,transform .12s;z-index:5;box-shadow:0 8px 20px rgba(0,0,0,.5)}
   .eslot[data-name]:hover::after,.eslot[data-name]:focus::after,.eslot[data-name]:focus-visible::after{opacity:1;transform:translate(-50%,0)}
   .eslot:focus{outline:none} .eslot:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
   .eslot.blank{border:2px solid rgba(238,241,255,.18);background:rgba(255,255,255,.04)}
-  .eslot.hidden{border:2px dashed var(--line);color:var(--muted);font-size:24px;font-weight:700;background:rgba(11,11,12,.45)}
+  .eslot.hidden{border:2px dashed var(--line);color:var(--muted);font-size:24px;font-weight:700;background:rgba(9,12,24,.45)}
   .eslot.new{animation:pop .5s cubic-bezier(.2,1.6,.4,1) both}
   @keyframes pop{0%{transform:scale(.2) rotate(-25deg);opacity:0}100%{transform:none;opacity:1}}
   .ebars{display:flex;flex-direction:column;gap:9px;overflow:auto;min-height:0;scrollbar-width:thin;scrollbar-color:var(--line) transparent;padding:2px 4px}
@@ -131,8 +131,8 @@
   .ehint{text-align:center;color:var(--muted);font-size:14px;padding:6px 0}
 
   /* ---------- result ---------- */
-  .result{display:flex;gap:14px;align-items:center;background:linear-gradient(90deg,rgba(255,255,255,.10),rgba(255,255,255,.04));
-    border:1px solid rgba(255,255,255,.3);border-radius:14px;padding:10px 12px}
+  .result{display:flex;gap:14px;align-items:center;background:linear-gradient(90deg,rgba(0,212,255,.10),rgba(124,92,255,.10));
+    border:1px solid rgba(0,212,255,.35);border-radius:14px;padding:10px 12px}
   .result .pic{width:64px;height:80px;border-radius:10px;overflow:hidden;flex:none;background:var(--panel2)}
   .result .pic img,.result .pic .ph{width:100%;height:100%;object-fit:cover;object-position:50% 12%}
   .result .pic img{display:block}
@@ -140,7 +140,7 @@
   .result .who{font-size:22px;font-weight:700;color:var(--accent2);letter-spacing:1px;line-height:1.1}
   .result .sub{font-size:13px;color:var(--muted);margin-top:2px}
   .result .sub b{color:var(--text)}
-  .result.lost{background:linear-gradient(90deg,rgba(168,50,74,.22),rgba(255,255,255,.04));border-color:rgba(255,90,110,.45)}
+  .result.lost{background:linear-gradient(90deg,rgba(168,50,74,.22),rgba(124,92,255,.08));border-color:rgba(255,90,110,.45)}
   .result.lost .who{color:#ff8a9a}
   .pips{display:inline-flex;gap:5px;vertical-align:middle;margin-left:8px}
   .pips i{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--line);display:inline-block}
@@ -152,7 +152,7 @@
   .boardWrap{position:relative;overflow:auto;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
   table{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:6px}
   th{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);font-weight:600;
-    padding:2px 0 4px;position:sticky;top:0;background:#141416;z-index:2}
+    padding:2px 0 4px;position:sticky;top:0;background:#0f1630;z-index:2}
   td{padding:0}
   .cell{width:100%;height:var(--ch);border-radius:10px;display:flex;flex-direction:column;
     align-items:center;justify-content:center;text-align:center;padding:4px;overflow:hidden;
@@ -163,8 +163,8 @@
   .heroCell img,.heroCell .ph{width:100%;height:100%;object-fit:cover;object-position:50% 14%}
   .heroCell img{display:block}
   .ph{display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;
-    background:linear-gradient(140deg,#3a3a40,#1c1c20);color:#e4e4e7}
-  .heroCell span{position:absolute;left:0;right:0;bottom:0;background:rgba(10,10,11,.84);
+    background:linear-gradient(140deg,#3a2a7a,#1b2a5e);color:#cdd6ff}
+  .heroCell span{position:absolute;left:0;right:0;bottom:0;background:rgba(6,9,20,.84);
     font-size:11px;padding:3px 2px;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .arrow{font-size:18px;line-height:1}
   @keyframes flip{from{transform:rotateX(90deg);opacity:0}to{transform:rotateX(0);opacity:1}}
@@ -182,7 +182,7 @@
     display:flex;align-items:center;gap:7px;background:transparent}
   .tab i{width:8px;height:8px;border-radius:50%;background:var(--rc,#fff);display:inline-block}
   .tab.on{background:var(--panel2);border-color:var(--rc,var(--accent));color:#fff}
-  .tab[data-role="all"]{--rc:#e4e4e7}
+  .tab[data-role="all"]{--rc:#cdd6ff}
   #rosterBody{overflow:auto;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
   /* hide / show the hero grid (hidden by default: play from memory) */
   .eye{margin-left:8px;padding:6px 12px;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;border-radius:999px}
@@ -194,18 +194,18 @@
   #rosterHidden .big{font-size:44px;opacity:.5}
   /* while the heroes are hidden, let the moving hero wall show through this panel */
   .roster{transition:background .3s,border-color .3s,backdrop-filter .3s}
-  .roster.hid{background:rgba(18,18,20,.18);border-color:rgba(58,58,64,.45);
+  .roster.hid{background:rgba(14,20,44,.18);border-color:rgba(43,55,104,.45);
     backdrop-filter:none;-webkit-backdrop-filter:none}
   .roster.hid #rosterHidden{color:var(--text);text-shadow:0 2px 10px rgba(0,0,0,.9),0 0 2px rgba(0,0,0,.8)}
   .grid{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:8px}
   .htile{display:flex;flex-direction:column;padding:0;border-radius:9px;overflow:hidden;min-width:0;
     background:var(--panel2);border:1px solid var(--line);text-align:center;transition:.15s}
-  .htile .pic{aspect-ratio:1/1.05;width:100%;overflow:hidden;background:linear-gradient(160deg,#2a2a2f,#151517)}
+  .htile .pic{aspect-ratio:1/1.05;width:100%;overflow:hidden;background:linear-gradient(160deg,#2b2466,#141c3d)}
   .htile .pic img,.htile .pic .ph{width:100%;height:100%;object-fit:cover;object-position:50% 8%;transition:transform .2s}
   .htile .pic img{display:block}
   .htile .nm{font-size:var(--nfs);font-weight:700;text-transform:uppercase;letter-spacing:.3px;line-height:1.12;
     height:var(--nmh,30px);padding:0 3px;display:flex;align-items:center;justify-content:center;
-    background:rgba(10,10,11,.92);border-top:2px solid var(--rc);overflow:hidden}
+    background:rgba(6,9,20,.92);border-top:2px solid var(--rc);overflow:hidden}
   .htile .nm span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   .htile:hover{transform:translateY(-2px);border-color:var(--rc);box-shadow:0 8px 20px rgba(0,0,0,.45)}
   .htile:hover .pic img{transform:scale(1.07)}
@@ -217,19 +217,19 @@
   .g-van{--rc:var(--van)} .g-due{--rc:var(--due)} .g-str{--rc:var(--str)}
   .g-multi{--rc:#b48cff}
   .g-multi .nm{border-top:0;box-shadow:inset 0 2px 0 0 transparent;
-    background:linear-gradient(90deg,var(--van),var(--due),var(--str)) top/100% 2px no-repeat, rgba(10,10,11,.92)}
+    background:linear-gradient(90deg,var(--van),var(--due),var(--str)) top/100% 2px no-repeat, rgba(6,9,20,.92)}
   .htile.off{display:none}
   .fitted .htile .pic{aspect-ratio:auto;height:var(--pich)}
   .noNames .htile .nm{display:none}
   .noNames .htile .pic{border-bottom:3px solid var(--rc)}
 
   footer{text-align:center;color:var(--muted);font-size:11px;opacity:.55}
-  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--accent);color:var(--on-accent);
+  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--accent);
     padding:10px 18px;border-radius:999px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:50}
   .toast.show{opacity:1}
   dialog{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:14px;
     max-width:460px;padding:22px;font-family:inherit}
-  dialog::backdrop{background:rgba(6,6,7,.72)}
+  dialog::backdrop{background:rgba(4,6,14,.72)}
   dialog h3{margin:0 0 10px}
   dialog ul{padding-left:18px;line-height:1.7;font-size:14px}
   .key{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:4px}
@@ -822,7 +822,7 @@ $('btnStats').onclick=()=>{
   const pct = s.played ? Math.round(100*s.wins/s.played) : 0;
   const losses = s.played - s.wins;
   const rowsData=[];
-  for(let k=1;k<=MODES.classic.max;k++) rowsData.push([String(k), s.dist[k]||0, '#52525b']);
+  for(let k=1;k<=MODES.classic.max;k++) rowsData.push([String(k), s.dist[k]||0, 'var(--accent)']);
   rowsData.push(['X', losses, 'var(--bad)']);
   const max=Math.max(1,...rowsData.map(r=>r[1]));
   const bars = rowsData.map(([k,v,c])=>
