@@ -103,6 +103,9 @@
   .eslot{width:clamp(50px,6vw,72px);height:clamp(50px,6vw,72px);display:flex;align-items:center;justify-content:center;
     border-radius:14px;font-size:clamp(34px,4.2vw,50px);line-height:1}
   .eslot img{width:82%;height:82%;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}
+  .etxt{font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif;
+    font-size:clamp(40px,4.8vw,56px);line-height:1;filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}
+  .eslot.blank{border:2px solid rgba(238,241,255,.18);background:rgba(255,255,255,.04)}
   .eslot.hidden{border:2px dashed var(--line);color:var(--muted);font-size:24px;font-weight:700;background:rgba(9,12,24,.45)}
   .eslot.new{animation:pop .5s cubic-bezier(.2,1.6,.4,1) both}
   @keyframes pop{0%{transform:scale(.2) rotate(-25deg);opacity:0}100%{transform:none;opacity:1}}
@@ -320,7 +323,7 @@
     <li><b>↑ / ↓</b> on the year — the answer came out later / earlier.</li>
   </ul>
   <p style="font-size:14px;margin-bottom:4px"><b>Emoji mode</b></p>
-  <p style="font-size:14px;color:var(--muted);margin-top:0">You start with <b>1 emoji</b>. Every wrong guess reveals another, up to 5. The first two are tough; the last one nearly gives it away. You get <b>5 guesses</b>.</p>
+  <p style="font-size:14px;color:var(--muted);margin-top:0">You start with <b>1 emoji</b>. Every wrong guess reveals another, up to 4. You get <b>5 guesses</b>.</p>
   <p style="font-size:14px">Switch modes with the <b>Classic / Emoji</b> toggle at the top; each mode keeps its own round. Type a name or click a hero on the right. Unlimited rounds — hit <b>New hero</b> any time (skipping a round you've started counts as a loss).</p>
   <button class="primary" onclick="dlgHow.close()">Got it</button>
 </dialog>
@@ -454,7 +457,7 @@ const MODES = {
 };
 let mode = store.mode === 'emoji' ? 'emoji' : 'classic';
 const maxGuesses = () => MODES[mode].max;
-const EMOJI_HEROES = HEROES.filter(h => EMOJIS[h.name] && EMOJIS[h.name].length === 5);
+const EMOJI_HEROES = HEROES.filter(h => EMOJIS[h.name] && EMOJIS[h.name].length > 0);
 const heroPool = () => mode === 'emoji' ? EMOJI_HEROES : HEROES;
 store.stats  = store.stats  || {played:0, wins:0, total:0, best:null, dist:{}, streak:0, maxStreak:0};
 if(store.stats.wins===undefined){ store.stats.wins=store.stats.played; }          /* older saves: every round was a win */
@@ -673,13 +676,15 @@ function renderClassicRows(rows){
 }
 
 /* ---------- emoji mode ---------- */
-/* Emojis are drawn with Twemoji images so they look the same everywhere
-   (Windows shows flag emojis as plain letters); plain text is the fallback. */
+/* Emojis are shown as plain text, like RivalsDLE, so each device draws them in its own style.
+   Flags are the exception: Windows shows them as two letters, so those use a Twemoji image. */
+const isFlag = e => /[\u{1F1E6}-\u{1F1FF}]/u.test(e) || /\u{1F3F4}\u{E0067}/u.test(e);
 function twemojiCode(e){
   const s = e.indexOf('\u200D')<0 ? e.replace(/\uFE0F/g,'') : e;
   return [...s].map(c=>c.codePointAt(0).toString(16)).join('-');
 }
 function emojiImg(e){
+  if(!isFlag(e)){ const sp=document.createElement('span'); sp.className='etxt'; sp.textContent=e; return sp; }
   const img=document.createElement('img');
   img.alt=e; img.draggable=false;
   img.onerror=()=>{ const sp=document.createElement('span'); sp.textContent=e; img.replaceWith(sp); };
@@ -695,7 +700,8 @@ function renderEmoji(){
     const slot=document.createElement('div');
     if(i<shown){
       slot.className='eslot'+(i>=shownEmojis?' new':'');
-      slot.appendChild(emojiImg(e));
+      if(e.trim()) slot.appendChild(emojiImg(e));
+      else { slot.classList.add('blank'); slot.setAttribute('aria-label','Blank clue'); }
     } else {
       slot.className='eslot hidden'; slot.textContent='?';
       slot.setAttribute('aria-label','Hidden clue');
