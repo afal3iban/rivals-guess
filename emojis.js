@@ -118,7 +118,7 @@ const EMOJI_NAMES = {
   "💀": "Skull",
   "🏴‍☠️": "Pirate flag",
   "📜": "Scroll",
-  "🔮": "Crystal ball",
+  "🔮": "Crystal ball (magic)",
   "🟥": "Red square",
   "🧙‍♀️": "Witch",
   "⚔️": "Crossed swords",
